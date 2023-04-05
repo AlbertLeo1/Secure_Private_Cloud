@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ekklesia Healthcare | Login Page</title>
+    <title>Cloud Computing System | Login Page</title>
     <link rel="icon" type="image/jpeg" href="{{asset('img/logo/ekklesia-logo.jpeg')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,6 @@
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
-    @include('partials.home.topnav')
     <div class="content-wrapper">
         <div class="content">
             <div class="container">
@@ -25,14 +24,14 @@
                             <div class="col-sm-5" style="background:url({{asset('img/background/genescor-bg-auth-top.png')}}) top left no-repeat; background-size: contain;">
                                 <div class="brand-col" style="background:url({{asset('img/background/genescor-bg-auth.png')}}) bottom center no-repeat; background-size: contain;">
                                     <div class="headline">
-                                        <div class="brand-logo mb-5"><img src="{{asset('img/logo/genescor-black.png')}}" width="100" height="auto" alt="brand-logo"></div>
+                                        <div class="brand-logo mb-5"></div>
                                         <img src="{{asset('img/background/genescor-login-female-user.png')}}" class="img-fluid" style="position: relative; bottom:0px" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-7">
                                 <div class="card-body login-card-body">
-                                    <h4 style="font-style: normal; font-weight: 500;">Get Nursing Services in Blink of an Eye</h4>
+                                    <h4 style="font-style: normal; font-weight: 500;">&nbsp;</h4>
                                     <h3 style="font-style: normal; font-weight: 600;" class="mt-3">Sign In </h3>
                                     <form action="{{ route('login') }}" method="post">
                                         @csrf
@@ -76,10 +75,6 @@
                                         </div>
                                     </form>
                                     <p class="text-center">Don't have an Account? <a class="text-primary" href="{{route('register')}}">Sign Up Here</a></p>
-                                    <div class="row">
-                                        <p class="text-center col-md-6 col-sm-6 col-xs-12 d-flex"><i class="fa fa-phone-alt fa-sm mt-1 mr-1 text-primary"></i>+44 7999 941661</p>
-                                        <p class="text-center col-md-6 col-sm-6 col-xs-12 d-flex"><i class="far fa-envelope fa-sm mt-1 mr-1 text-primary"></i>info@ekklesiahealthcare.uk</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +85,6 @@
     </div>
     </div>
     <aside class="control-sidebar control-sidebar-dark"></aside>
-    @include('partials.home.footer')
 </div>
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
