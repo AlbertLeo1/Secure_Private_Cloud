@@ -12,8 +12,8 @@ Route::get('/home',                 [App\Http\Controllers\HomeController::class,
 //Route::get('/hims/{any}',           [App\Http\Controllers\ModulesController::class, 'hims'])->where('any', '.*');
 Route::get('/hr',                   [App\Http\Controllers\ModulesController::class, 'human_resources'])->name('human_resources');
 Route::get('/hr/{any}',             [App\Http\Controllers\ModulesController::class, 'human_resources'])->where('any', '.*');
-//Route::get('/learn',                [App\Http\Controllers\ModulesController::class, 'learn'])->name('learn');
-//Route::get('/learn/{any}',          [App\Http\Controllers\ModulesController::class, 'learn'])->where('any', '.*');
+Route::get('/inventory',            [App\Http\Controllers\ModulesController::class, 'inventory'])->name('inventory');
+Route::get('/inventory/{any}',      [App\Http\Controllers\ModulesController::class, 'inventory'])->where('any', '.*');
 //Route::get('/nursing',              [App\Http\Controllers\ModulesController::class, 'nursing'])->name('nursing');
 //Route::get('/nursing/{any}',        [App\Http\Controllers\ModulesController::class, 'nursing'])->where('any', '.*');
 //Route::get('/policies',             [App\Http\Controllers\ModulesController::class, 'policies'])->name('policies');

@@ -9,7 +9,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <HrUserFormUser :areas="areas" :branches="branches" :departments="departments" :editMode="editMode" :states="states" :user="user"/>
+                    <HrUserForm :areas="areas" :branches="branches" :departments="departments" :editMode="editMode" :states="states" :user="user"/>
                 </div>
             </div>
         </div>
@@ -104,6 +104,10 @@ export default {
             $('#userModal').modal('show');
 
             this.$Progress.finish();
+        },
+        closeModal(){
+            $('#roleModal').modal('hide');
+            $('#userModal').modal('hide');
         },
         deleteUser(id){
             Swal.fire({

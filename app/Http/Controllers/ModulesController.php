@@ -6,22 +6,6 @@ use Illuminate\Http\Request;
 
 class ModulesController extends Controller
 {
-    public function chats()
-    {
-        $params = [
-            'page_title' => 'Chats',
-        ];
-        return view('chats')->with($params);
-    }
-
-    public function contacts()
-    {
-        $params = [
-            'page_title' => 'Contacts',
-        ];
-        return view('internet')->with($params);
-    }
-
     public function dashboard()
     {
         $params = [
@@ -30,32 +14,6 @@ class ModulesController extends Controller
         return view('internet')->with($params);
     }
 
-    public function domiciliary()
-    {
-        $params = [
-            'page'       => 'domiciliary',
-            'page_title' => 'Domiciliary Care',
-        ];
-        return view('users')->with($params);
-    }
-
-    public function departments()
-    {
-        $params = [
-            'page'       => 'domiciliary',
-            'page_title' => 'Departments',
-        ];
-        return view('internet')->with($params);
-    }
-
-    public function hims()
-    {
-        $params = [
-            'page'       => 'hims',
-            'page_title' => 'Health Information Management',
-        ];
-        return view('users')->with($params);
-    }
     
     public function human_resources()
     {
@@ -72,6 +30,14 @@ class ModulesController extends Controller
             'page_title' => 'Internet',
         ];
         return view('internet')->with($params);
+    }
+
+    public function inventory()
+    {
+        $params = [
+            'page_title' => 'Inventory',
+        ];
+        return view('users')->with($params);
     }
 
     public function learn()

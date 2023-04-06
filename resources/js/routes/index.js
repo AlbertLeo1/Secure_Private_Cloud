@@ -5,14 +5,14 @@ import VueRouter from 'vue-router';
 //import domiciliary from './domiciliary';
 //import hims from './hims';
 import hr from './hr';
-//import learn from './learn';
+import inventory from './inventory';
 //import nursing from './nursing';
 //import operations from './operations';
 //import policies from './policies';
 
 const baseRoutes = [];
 const routes = baseRoutes.concat(//applicant, domiciliary, hims, 
-hr, //learn, nursing, operations, policies,
+hr, inventory, //learn, nursing, operations, policies,
 );
 
 const router = new VueRouter({

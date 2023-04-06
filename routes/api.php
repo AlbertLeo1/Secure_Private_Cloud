@@ -10,9 +10,7 @@ Route::namespace('App\Http\Controllers\Api\EMR')
 ->group(base_path('routes/api/emr.php'));
 //Route::namespace('App\Http\Controllers\Api\Hims')->middleware('auth:api')->name('api.hims.')->group(base_path('routes/api/hims.php'));
 Route::namespace('App\Http\Controllers\Api\Hrms')->middleware('auth:api')->name('api.hrms.')->group(base_path('routes/api/hrms.php'));
-Route::namespace('App\Http\Controllers\Api\Lms')->middleware('auth:api')->name('api.lms.')->group(base_path('routes/api/lms.php'));
-Route::namespace('App\Http\Controllers\Api\Pharmacy')->name('api.pharmacy.')->prefix('/pharmacy')->group(base_path('routes/api/pharmacy.php'));
-Route::namespace('App\Http\Controllers\Api\Ticketing')->middleware('auth:api')->name('api.tickets.')->group(base_path('routes/api/ticket.php'));
+Route::namespace('App\Http\Controllers\Api\Inventory')->middleware('auth:api')->name('api.inventory.')->group(base_path('routes/api/inventory.php'));
 Route::namespace('App\Http\Controllers\Api\Ums')->middleware('auth:api')->name('api.ums.')->group(base_path('routes/api/ums.php'));
 
 Route::group(['namespace'=>'App\Http\Controllers\Api', 'middleware'=>['auth:api'], 'as'=>'api.'], function () {
@@ -22,7 +20,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Api', 'middleware'=>['auth:api'
     
     Route::apiResources([
         '/dashboard'     => 'DashboardController',
-        'policies'       => 'PolicyController',
+        '/policies'       => 'PolicyController',
     
     ]);
 });
