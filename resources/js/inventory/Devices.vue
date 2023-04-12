@@ -21,7 +21,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <InventoryFormDevice :branches="branches" :device="device"/>
+                    <InventoryFormDevice :branches="branches" :device="device" :editMode="editMode"/>
                 </div>
             </div>
         </div>
@@ -49,13 +49,23 @@
                     </thead>
                     <tbody v-if="devices.data != null">
                         <tr v-for="device in devices.data" :key="device.id">
-                            <td>{{ device.name }}<span class="text-muted">{{ device.brand }}</span></td>
-                            <td>{{ device.serial_number }}<span class="text-muted">{{ device.unique_code }}</span></td>
+                            <td>{{ device.name }}<br /><span class="text-muted">{{ device.brand }}</span></td>
+                            <td>{{ device.serial_number }}<br /><span class="text-muted">{{ device.unique_code }}</span></td>
                             <td>{{ device.model }}</td>
                             <td>{{ device.branch.name }}</td>
                             <td>{{ device.status }}</td>
                             <td>{{ device.mac_address }}</td>
-                            <td></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-default" @click="editDevice(device)">
+                                    <i class="fas fa-envelope mr-2 text-primary"></i> Edit
+                                    </button>
+                                    <div class="dropdown-divider"></div>
+                                    <button class="btn btn-default" @click="deleteDevice(device.id)">
+                                    <i class="fas fa-trash mr-2 text-danger"></i> Delete
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                     <tbody v-else>
@@ -94,7 +104,6 @@ export default {
         },
         closeModal(){
             $('#deviceModal').modal('hide');
-            //$('#userModal').modal('hide');
         },
         deleteDevice(id){
             Swal.fire({
@@ -107,10 +116,10 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
                 })
             .then((result) => {
-                //Send Delete request
                 if(result.value){
                     this.form.delete('/api/inventory/devices/'+id)
                     .then(response=>{
+                        this.$Progress.finish();
                         Swal.fire('Deleted!', response.data.message, 'success');
                         this.refreshPage(response);   
                     })
@@ -169,11 +178,9 @@ export default {
             .then((response ) => {this.users = response.data.users;})
             .catch(()=>{});
         });
-        Fire.$on('userRoleReload', response =>{});
-        Fire.$on('Reload', response =>{
-            $('#userModal').modal('hide'); 
-            $('#roleModal').modal('hide');
-            this.users = response.data.users;
+        Fire.$on('ReloadDevices', response =>{
+            this.closeModal();
+            this. refreshPage(response);
         });
     },
 }

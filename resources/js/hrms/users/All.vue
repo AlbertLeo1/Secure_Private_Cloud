@@ -144,7 +144,7 @@ export default {
         },
         getAllInitials(){
             this.$Progress.start();
-            axios.get('/api/ums/users').then(response =>{
+            axios.get('/api/hrms/users').then(response =>{
                 this.refreshPage(response);
                 this.$Progress.finish();
                 toast.fire({
@@ -161,7 +161,7 @@ export default {
             });
         },
         getUser(page=1){
-            axios.get('/api/ums/users?page='+page)
+            axios.get('/api/hrms/users?page='+page)
             .then(response=>{
                 this.users = response.data.users;   
             });

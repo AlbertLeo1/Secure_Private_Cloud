@@ -18,4 +18,9 @@ class Device extends Structure
     {
         return $this->belongsTo('App\Models\Branch', 'branch_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

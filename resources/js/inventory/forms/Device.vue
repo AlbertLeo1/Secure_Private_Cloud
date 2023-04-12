@@ -4,13 +4,13 @@
         <div class="col-sm-9">
             <div class="form-group">
             <label>Name *</label>
-            <input type="text" class="form-control" id="nok_name" name="nok_name" placeholder="Full Name *" required  v-model="nokForm.name" :class="{'is-invalid' : nokForm.errors.has('name') }">
+            <input type="text" class="form-control" id="nok_name" name="nok_name" placeholder="Full Name *" required  v-model="deviceForm.name" :class="{'is-invalid' : deviceForm.errors.has('name') }">
             </div>
         </div>
         <div class="col-sm-3">
             <div class="form-group">
             <label>Brand *</label>
-            <input type="text" class="form-control" id="brand" name="brand" placeholder="Brand *" required v-model="nokForm.brand" :class="{'is-invalid' : nokForm.errors.has('brand') }">
+            <input type="text" class="form-control" id="brand" name="brand" placeholder="Brand *" required v-model="deviceForm.brand" :class="{'is-invalid' : deviceForm.errors.has('brand') }">
             </div>
         </div>
     </div>
@@ -18,67 +18,59 @@
         <div class="col-sm-4">
             <div class="form-group">
             <label>Serial Number *</label>
-            <input type="text" class="form-control" id="serial_number" name="serial_number" placeholder="serial_number *" required v-model="nokForm.serial_number" :class="{'is-invalid' : nokForm.errors.has('serial_number') }">
+            <input type="text" class="form-control" id="serial_number" name="serial_number" placeholder="serial_number *" required v-model="deviceForm.serial_number" :class="{'is-invalid' : deviceForm.errors.has('serial_number') }">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
             <label>Inventory Code *</label>
-            <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="unique_code *" required v-model="nokForm.unique_code" :class="{'is-invalid' : nokForm.errors.has('unique_code') }">
+            <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="unique_code *" required v-model="deviceForm.unique_code" :class="{'is-invalid' : deviceForm.errors.has('unique_code') }">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
             <label>Model *</label>
-            <input type="text" class="form-control" id="model" name="model" placeholder="model *" required v-model="nokForm.model" :class="{'is-invalid' : nokForm.errors.has('model') }">
+            <input type="text" class="form-control" id="model" name="model" placeholder="model *" required v-model="deviceForm.model" :class="{'is-invalid' : deviceForm.errors.has('model') }">
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Branch</label>
-                <select class="form-control" id="branch_id" name="branch_id" placeholder="branch_id *" required v-model="nokForm.branch_id" :class="{'is-invalid' : nokForm.errors.has('branch_id') }">
-                    <option value=''>--Select Branch</option>
-                    <option v-for="branch in branches" :key="branch.id" :value="branch.id">{{ branch.name }}</option>
+                <label>Status</label>
+                <select class="form-control" id="status" name="status" placeholder="status *" required v-model="deviceForm.status" :class="{'is-invalid' : deviceForm.errors.has('status') }">
+                    <option value=''>--Select Status--</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Discontinued">Discontinued</option>
                 </select>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-            <label>Inventory Code *</label>
-            <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="unique_code *" required v-model="nokForm.unique_code" :class="{'is-invalid' : nokForm.errors.has('unique_code') }">
+            <label>MAC Address *</label>
+            <input type="text" class="form-control" id="mac_address" name="mac_address" placeholder="mac_address *" required v-model="deviceForm.mac_address" :class="{'is-invalid' : deviceForm.errors.has('mac_address') }">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-            <label>Model *</label>
-            <input type="text" class="form-control" id="model" name="model" placeholder="model *" required v-model="nokForm.model" :class="{'is-invalid' : nokForm.errors.has('model') }">
+            <label>Branch *</label>
+                <select class="form-control" id="branch_id" name="branch_id" required v-model="deviceForm.branch_id" :class="{'is-invalid' : deviceForm.errors.has('branch_id') }">
+                    <option value=''>--Select Status--</option>
+                    <option v-for="branch in branches" :value="branch.id">{{branch.name}}</option>
+                </select>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="form-group">
-                <label>Address</label>
-                <input type="text" class="form-control" id="nok_address" name="address" placeholder="Enter Address *" required v-model="nokForm.address" :class="{'is-invalid' : nokForm.errors.has('address') }">
+                <label>Description</label>
+                <wysiwyg type="text" rows="5" id="description" name="description" placeholder="Enter description *" required v-model="deviceForm.description" :class="{'is-invalid' : deviceForm.errors.has('description') }" />
             </div>
         </div>
     </div>    
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="form-group">
-                <label>Phone Number*</label>
-                <input type="number" class="form-control" id="nok_phone" name="phone" placeholder="Enter Phone Number *" value="" required v-model="nokForm.phone" :class="{'is-invalid' : nokForm.errors.has('phone') }">
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" id="nok_email" name="email" placeholder="Enter NOK Email Address *" required v-model="nokForm.email" :class="{'is-invalid' : nokForm.errors.has('email') }">
-            </div>
-        </div>
-    </div>
+    
     <button @click.prevent="editMode ? updateDevice() : createDevice()" type="submit" name="submit" class="submit btn btn-success">Submit </button>
 </form>
 </template>
@@ -98,14 +90,14 @@ export default {
                 status: '', 
                 mac_address: '',
             }),
-            editMode:false,
         }
     },
     methods:{
         createDevice(){
             this.$Progress.start();
-            this.deviceForm.put('/api/inventory/devices/'+this.deviceForm.id)
+            this.deviceForm.post('/api/inventory/devices')
             .then(response =>{
+                Fire.$emit('ReloadDevices', response);
                 this.$Progress.finish();
                 Swal.fire({
                     icon: 'success',
@@ -150,12 +142,12 @@ export default {
     },
     mounted() {
         Fire.$on('DeviceDataFill', device =>{
-            this.editMode = true;
             this.deviceForm.fill(device);
         });
     },
     props:{
         'branches': Array,
+        'editMode': Boolean,
     },
 }
 </script>
