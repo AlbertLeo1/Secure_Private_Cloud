@@ -35,7 +35,7 @@ class UserController extends Controller
     
     public function index()
     {
-        $users = User::where('branch_id', auth('api')->user()->branch_id)->with('state')->with('branch')->orderBy('branch_id')->get();
+        $users = User::where('branch_id', auth('api')->user()->branch_id)->with('state')->with('branch')->orderBy('branch_id')->paginate(30);
         return response()->json(['users' => $users]);
     }
 
