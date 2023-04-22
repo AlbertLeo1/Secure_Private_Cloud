@@ -85,7 +85,7 @@ export default {
             this.$Progress.finish();
         },
         closeModal(){
-            $('#departmentModal').modal('hide'); 
+            $('#branchModal').modal('hide'); 
         },
         getAllInitials(){
             this.$Progress.start();

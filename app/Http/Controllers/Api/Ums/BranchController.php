@@ -16,74 +16,47 @@ class BranchController extends Controller
     public function index()
     {
         return response()->json([
-            'branches'    => Branch::with('users')->with('chief_consultant')->with('head_nurse')->with('practice_manager')->orderBy('name', 'ASC')->paginate(10),       
-            'users'       => User::orderBy('first_name', 'ASC')->get(),       
+            'branches'    => Branch::orderBy('name', 'ASC')->paginate(10),        
         ]);        
     }
 
     public function store(Request $request)
     {
         Branch::create([
-            'name'      =>  $request->input('name'),
-            'address'   =>  $request->input('description') ?? '',
-            'pm_id'     =>  $request->input('pm_id'),
-            'cinc_id'   =>  $request->input('cinc_id'),
-            'hon_id'    =>  $request->input('hon_id'),
+            'name'      => $request->input('name'),
+            'address'   => $request->input('address') ?? '',
+            'unique_id' => 'C',
+            'current'   => 0,
+            'pm_id'     => $request->input('pm_id') ?? NULL,
+            'cinc_id'   => $request->input('cinc_id') ?? NULL,
+            'hon_id'    => $request->input('hon_id') ?? NULL,
         ]);
 
-        $practice_manager = User::find($request->input('pm_id'));
-        $practice_manager_role = Role::where('name', '=', 'Practice Manager')->first();
-        $practice_manager->assignRole($practice_manager_role);
-
-        $chief_consultant = User::find($request->input('cinc_id'));
-        $chief_consultant_role = Role::where('name', '=', 'Chief Consultant')->first();
-        $chief_consultant->assignRole($chief_consultant_role);
-
-        $head_nurse = User::find($request->input('hon_id'));
-        $head_nurse_role = Role::where('name', '=', 'Head Nurse')->first();
-        $head_nurse->assignRole($head_nurse_role);
-
         return response()->json([
-            'branches' => Branch::with('users')->with('hod')->orderBy('name', 'ASC')->paginate(10),       
-            'users'       => User::orderBy('first_name', 'ASC')->get(),       
+            'branches' => Branch::orderBy('name', 'ASC')->paginate(10),       
+    
         ]);
     }
 
     public function show($id)
     {
         return response()->json([
-            'branch'    => Branch::where('id', '=', $id)->with('users')->with('hod')->orderBy('name', 'ASC')->first(),       
-            'users'       => User::all(),       
+            'branch'    => Branch::where('id', '=', $id)->orderBy('name', 'ASC')->first(),       
         ]);
     }
 
     public function update(Request $request, $id)
     {
+        
         $branch = Branch::find($id);
 
         $branch->name        = $request->input('name');
-        $branch->address     = $request->input('description') ?? '';
-        $branch->pm_id      = $request->input('pm_id');
-        $branch->cinc_id      = $request->input('cinc_id');
-        $branch->hon_id      = $request->input('hon_id');
+        $branch->address     = $request->input('address') ?? '';
         
         $branch->save();
 
-        $practice_manager = User::find($request->input('pm_id'));
-        $practice_manager_role = Role::where('name', '=', 'Practice Manager')->first();
-        $practice_manager->assignRole($practice_manager_role);
-
-        $chief_consultant = User::find($request->input('cinc_id'));
-        $chief_consultant_role = Role::where('name', '=', 'Chief Consultant')->first();
-        $chief_consultant->assignRole($chief_consultant_role);
-
-        $head_nurse = User::find($request->input('hon_id'));
-        $head_nurse_role = Role::where('name', '=', 'Head Nurse')->first();
-        $head_nurse->assignRole($head_nurse_role);
-
         return response()->json([
-            'branches' => Branch::with('users')->with('practice_manager')->with('chief_consultant')->with('head_nurse')->orderBy('name', 'ASC')->paginate(10),       
-            'users'       => User::orderBy('first_name', 'ASC')->get(),       
+            'branches' => Branch::with('users')->orderBy('name', 'ASC')->paginate(10),       
         ]);
     }
 
@@ -96,6 +69,7 @@ class BranchController extends Controller
                 $user->save();
             }
         }
+        
         $branch = Branch::find($id);
         $branch->deleted_by = auth('api')->id();
         $branch->deleted_at = date('Y-m-d H:i:s');
