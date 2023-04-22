@@ -3,11 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::namespace('App\Http\Controllers\Api\Blogs')->name('api.blogs.')->prefix('/blogs')->group(base_path('routes/api/blog.php'));
-Route::namespace('App\Http\Controllers\Api\Chats')->middleware('auth:api')->name('api.chats.')->group(base_path('routes/api/chats.php'));
-Route::namespace('App\Http\Controllers\Api\EMR')
-//->middleware('auth:api')
-->group(base_path('routes/api/emr.php'));
+//Route::namespace('App\Http\Controllers\Api\Blogs')->name('api.blogs.')->prefix('/blogs')->group(base_path('routes/api/blog.php'));
+//Route::namespace('App\Http\Controllers\Api\Chats')->middleware('auth:api')->name('api.chats.')->group(base_path('routes/api/chats.php'));
+//Route::namespace('App\Http\Controllers\Api\EMR')->middleware('auth:api')->group(base_path('routes/api/emr.php'));
 //Route::namespace('App\Http\Controllers\Api\Hims')->middleware('auth:api')->name('api.hims.')->group(base_path('routes/api/hims.php'));
 Route::namespace('App\Http\Controllers\Api\Hrms')->middleware('auth:api')->name('api.hrms.')->group(base_path('routes/api/hrms.php'));
 Route::namespace('App\Http\Controllers\Api\Inventory')->middleware('auth:api')->name('api.inventory.')->group(base_path('routes/api/inventory.php'));

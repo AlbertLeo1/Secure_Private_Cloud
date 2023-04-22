@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 class ModulesController extends Controller
 {
+    public function admin()
+    {
+        $params = [
+            'page'       => 'admin',
+            'page_title' => 'Administrator Area',
+        ];
+        return view('users')->with($params);
+    }
+
     public function dashboard()
     {
         $params = [

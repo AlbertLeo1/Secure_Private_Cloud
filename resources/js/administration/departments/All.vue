@@ -1,10 +1,27 @@
 <template>
 <div class="container-fluid">
+    <div class="modal fade" id="departmentModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" v-show="editMode">EditDepartment: {{department.namme}}</h4>
+                    <h4 class="modal-title" v-show="!editMode">New Department</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <AdminFormDepartment :editMode="editMode"/>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Departments</h3>
+                    <div class="card-tools">
+                        <button class="btn btn-xs btn-primary" @click="addDepartment()">Add New</button>
+                    </div>
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -15,7 +32,6 @@
                                     <th>HOD</th>
                                     <th>Email</th>
                                     <th>Phone Ext.</th>
-                                    <th>Number</th>
                                     <th>Description</th>
                                     <th></th>
                                 </tr>
@@ -23,14 +39,14 @@
                             <tbody>
                                 <tr v-for="department in departments.data" :key="department.id">
                                     <td>{{department.name}}</td>
-                                    <td>{{department.hod_id !== null ? department.hod.first_name+' '+department.hod.last_name : ''}}</td>
+                                    <td>{{department.hod_id !== null && department.hod != null ? department.hod.first_name+' '+department.hod.last_name : ''}}</td>
                                     <td>{{department.email}}</td>
                                     <td>{{department.ext}}</td>
                                     <td>{{department.users.length}}</td>
                                     <td :title="department.description">{{department.description | readMore(25, '...')}}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <router-link :to="'/departments/'+department.id" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></router-link>
+                                            <router-link :to="'/admin/departments/'+department.id" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></router-link>
                                         </div>          
                                     </td>
                                 </tr>
@@ -53,10 +69,23 @@
 export default {
     data(){
         return {
+            department: {},
             departments: {},
         }
     },
     methods:{
+        addDepartment(){
+            this.$Progress.start();
+            this.editMode = false;
+            this.department = {};
+            Fire.$emit('departmentDataFill', {});
+            $('#departmentModal').modal('show');
+
+            this.$Progress.finish();
+        },
+        closeModal(){
+            $('#departmentModal').modal('hide'); 
+        },
         getAllInitials(){
             this.$Progress.start();
             axios.get('/api/ums/departments').then(response =>{

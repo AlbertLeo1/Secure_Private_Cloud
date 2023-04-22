@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/',                     [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/admin',                [App\Http\Controllers\ModulesController::class, 'admin'])->name('admin');
+Route::get('/admin/{any}',          [App\Http\Controllers\ModulesController::class, 'admin'])->where('any', '.*');
+
 Route::get('/home',                 [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/domiciliary',          [App\Http\Controllers\ModulesController::class, 'domiciliary'])->name('domiciliary');
 //Route::get('/domiciliary/{any}',    [App\Http\Controllers\ModulesController::class, 'domiciliary'])->where('any', '.*');

@@ -3,19 +3,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form @submit.prevent="editMode ? updateDepartment() : createDepartment() ">
-                    <alert-error :form="departmentData"></alert-error> 
+                <form @submit.prevent="editMode ? updateBranch() : createBranch() ">
+                    <alert-error :form="branchData"></alert-error> 
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name *" v-model="departmentData.name" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name *" v-model="branchData.name" required>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Head of Department</label>
-                                <select class="form-control" id="_id" name="_id" v-model="departmentData.hod_id" required>
+                                <label>Location</label>
+                                <select class="form-control" id="state_id" name="_id" v-model="branchData.hod_id" required>
                                     <option value="">--Select Head of Department--</option>
                                     <option v-for="user in users" :key="user.id" :value="user.id">{{user.unique_id+' | '+user.first_name+' '+user.last_name}}</option>
                                 </select>
@@ -24,19 +24,19 @@
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Name *"  v-model="departmentData.email" required>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Name *"  v-model="branchData.email" required>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Phone Extension</label>
-                                <input type="text" class="form-control" id="ext" name="ext" placeholder="Phone Ext "  v-model="departmentData.ext_phone">
+                                <input type="text" class="form-control" id="ext" name="ext" placeholder="Phone Ext "  v-model="branchData.ext_phone">
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" id="description" name="description" rows=5 placeholder="A full description of the Course" v-model="departmentData.description"></textarea>
+                                <textarea class="form-control" id="description" name="description" rows=5 placeholder="A full description of the Course" v-model="branchData.description"></textarea>
                             </div>
                         </div>
                     </div>
@@ -51,39 +51,29 @@
 export default {
     data(){
         return  {
-            departmentData: new Form({
+            branchData: new Form({
                 id: '',
                 name: '', 
-                email: '',
-                ext: '',
+                location: '',
+                address: '',
                 description:'', 
-                hod_id:'',
             }),
         }
     },
     mounted() {
-        this.getInitials();
-        Fire.$on('DepartmentDataFill', department =>{
-            this.departmentData.id = department.id;
-            this.departmentData.name = department.name;
-            this.departmentData.description = department.description;
-            this.departmentData.ext = department.ext;
-            this.departmentData.email = department.email;
-            this.departmentData.hod_id = department.hod_id != null ? department.hod_id : '';
-        });
-        Fire.$on('AfterCreation', ()=>{
-            //axios.get("api/profile").then(({ data }) => (this.BioData.fill(data)));
+        Fire.$on('branchDataFill', branch =>{
+            this.branchData.fill(branch);    
         });
     },
     methods:{
-        createDepartment(){
+        createBranch(){
             this.$Progress.start();
-            this.departmentData.post('/api/ums/departments')
+            this.departmentData.post('api/admin/branches')
             .then(response =>{
                 Fire.$emit('DepartmentRefresh', response);
                 Swal.fire({
                     icon: 'success',
-                    title: 'The Department'+ this.DepartmentData.name+' has been created',
+                    title: 'The Department'+ this.branchData.name+' has been created',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -98,21 +88,21 @@ export default {
                 this.$Progress.fail();
             });
             this.$Progress.finish();
-            this.departmentData.clear();
+            this.branchData.clear();
         },
-        updateDepartment(){
+        updateBranch(){
             this.$Progress.start();
-            this.departmentData.put('/api/ums/departments/'+ this.departmentData.id)
+            this.branchData.put('/api/ums/departments/'+ this.branchData.id)
             .then(response =>{
                 Fire.$emit('DepartmentRefresh', response);
                 Swal.fire({
                     icon: 'success',
-                    title: 'The Department '+this.departmentData.name+' has been updated',
+                    title: 'The Department '+this.branchData.name+' has been updated',
                     showConfirmButton: false,
                     timer: 1500
                 });
                 this.$Progress.finish();
-                this.departmentData.clear();
+                this.branchData.clear();
             })
             .catch(()=>{
                 Swal.fire({
@@ -125,6 +115,6 @@ export default {
             });            
         },
     },
-    props:{ editMode: Boolean, }
+    props:{department: Object, editMode: Boolean, users: Array,}
 }
 </script>
