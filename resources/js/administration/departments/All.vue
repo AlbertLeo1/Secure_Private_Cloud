@@ -69,6 +69,7 @@
 export default {
     data(){
         return {
+            editMode: false,
             department: {},
             departments: {},
         }
@@ -112,7 +113,7 @@ export default {
         },
         refresh(response){
             this.departments = response.data.departments;
-            this.users = response.data.users;
+            //this.users = response.data.users;
             //Fire.$emit('LecturerFill', this.users);
         },
     },
@@ -120,7 +121,7 @@ export default {
         this.getAllInitials();
         Fire.$on('DepartmentRefresh', response =>{
             this.refresh(response);
-            $('#DepartmentModal').modal('hide');
+            $('#departmentModal').modal('hide');
         });
         Fire.$on('DepartmentUpdate', Department=>{
             this.Department = Department;

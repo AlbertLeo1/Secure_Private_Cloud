@@ -17,7 +17,7 @@
                                 <label>Head of Department</label>
                                 <select class="form-control" id="_id" name="_id" v-model="departmentData.hod_id" required>
                                     <option value="">--Select Head of Department--</option>
-                                    <option v-for="user in users" :key="user.id" :value="user.id">{{user.unique_id+' | '+user.first_name+' '+user.last_name}}</option>
+                                    <option v-for="user in users" :key="user.id" :value="user.id">{{user.username+' | '+user.first_name+' '+user.last_name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -59,20 +59,15 @@ export default {
                 description:'', 
                 hod_id:'',
             }),
+            users: [],
         }
     },
     mounted() {
         this.getInitials();
         Fire.$on('DepartmentDataFill', department =>{
-            this.departmentData.id = department.id;
-            this.departmentData.name = department.name;
-            this.departmentData.description = department.description;
-            this.departmentData.ext = department.ext;
-            this.departmentData.email = department.email;
-            this.departmentData.hod_id = department.hod_id != null ? department.hod_id : '';
+            this.departmentData.fill(department)
         });
         Fire.$on('AfterCreation', ()=>{
-            //axios.get("api/profile").then(({ data }) => (this.BioData.fill(data)));
         });
     },
     methods:{
@@ -83,7 +78,7 @@ export default {
                 Fire.$emit('DepartmentRefresh', response);
                 Swal.fire({
                     icon: 'success',
-                    title: 'The Department'+ this.DepartmentData.name+' has been created',
+                    title: 'The Department'+ this.departmentData.name+' has been created',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -99,6 +94,18 @@ export default {
             });
             this.$Progress.finish();
             this.departmentData.clear();
+        },
+        getInitials(){
+            axios.get('/api/ums/departments/initials').then(response =>{
+                this.users = response.data.users;
+            })
+            .catch(()=>{
+                this.$Progress.fail();
+                toast.fire({
+                    icon: 'error',
+                    title: 'Users were not loaded successfully',
+                })
+            });
         },
         updateDepartment(){
             this.$Progress.start();

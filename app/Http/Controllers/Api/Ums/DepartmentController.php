@@ -14,6 +14,12 @@ class DepartmentController extends Controller
     {
         return response()->json([
             'departments' => Department::with('users')->with('hod')->orderBy('name', 'ASC')->paginate(10),       
+        ]);        
+    }
+
+    public function initials()
+    {
+        return response()->json([
             'users'       => User::orderBy('first_name', 'ASC')->get(),       
         ]);        
     }

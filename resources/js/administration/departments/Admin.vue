@@ -5,12 +5,12 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" v-show="editMode">Edit Department: {{department.name}}</h4>
+                        <h4 class="modal-title" v-show="editMode">Edit Department : {{department.name}}</h4>
                         <h4 class="modal-title" v-show="!editMode">New Department</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <DepartmentForm :editMode="editMode" :department="department" :users="users" />
+                        <DepartmentForm :editMode="editMode" />
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@ export default {
         },
         refresh(response){
             this.departments = response.data.departments;
-            this.users = response.data.users;
+            //this.users = response.data.users;
             //Fire.$emit('LecturerFill', this.users);
         },
     },

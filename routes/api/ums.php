@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'ums'], function () {
     
+    Route::get('/departments/initials', 'DepartmentController@initials')->name('departments.initials');
     Route::get('/profile', 'UserController@profile')->name('profile.initials');
     Route::post('/password', 'UserController@password')->name('profile.password');
     Route::post('/details', 'UserController@details')->name('user.details');
