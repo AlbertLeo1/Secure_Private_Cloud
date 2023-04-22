@@ -45,10 +45,12 @@
         </div>
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
-                <label>State</label>
-                <select class="form-control" id="state_id" name="state_id" placeholder="Enter State / County *" required v-model="BioData.state_id" :class="{'is-invalid' : BioData.errors.has('state_id') }">
+                <label>State </label>
+                <select class="form-control" id="state_id" name="state_id" placeholder="Enter State / County *" required v-model="BioData.stat_id" :class="{'is-invalid' : BioData.errors.has('stat_id') }" @change="updateAreas()">
+                    <!--option v-if="user.state != null" :value="user.state_id" selected>{{user.state.name}}</option -->
+                
                     <option value="">--Select State--</option>
-                    <option v-for="state in states" v-bind:key="state.id" :value="state.id" >{{state.name}}</option>
+                    <option v-for="(state, index) in states" v-bind:key="state.id" :value="index" >{{state.name}}</option>
                 </select>
             </div>
         </div>
@@ -129,6 +131,7 @@
 export default {
     data(){
         return  {
+            areas: [],
             BioData: new Form({
                 alt_phone:'', 
                 area_id:'', 
@@ -154,19 +157,22 @@ export default {
                 street2:'',
                 unique_id: '', 
             }),
+            branches: [],
+            departments: [],
+            nations: [],
+            states: [],
+            user: {}, 
         }
     },
     mounted() {
+        this.getAllInitials();
         Fire.$on('BioDataFill', user =>{
+            this.user = user;
             this.BioData.fill(user);
-        });
-        Fire.$on('AfterCreation', ()=>{
-            //axios.get("api/profile").then(({ data }) => (this.BioData.fill(data)));
         });
     },
     methods:{
         createBioData(){
-            console.log("Working book");
             this.$Progress.start();
             this.BioData.post('/api/ums/users')
             .then(response =>{
@@ -188,6 +194,27 @@ export default {
                 });
                 this.$Progress.fail();
             });
+        },
+        getAllInitials(){
+            axios.get('/api/ums/users/initials').then(response =>{
+                this.areas = response.data.areas;
+                this.states = response.data.states;
+            })
+            .catch(()=>{
+                this.$Progress.fail();
+                toast.fire({
+                    icon: 'error',
+                    title: 'Users were not loaded successfully',
+                })
+            });
+        },
+        getProfilePic(){
+            let photo = (this.BioData.image.length >= 150) ? this.BioData.image : "./"+this.BioData.image;
+            return photo;
+        },
+        updateAreas(){
+            this.BioData.state_id = this.states[this.BioData.stat_id].id;
+            this.areas = this.states[this.BioData.stat_id].areas;
         },
         updateBioData(){
             console.log("Tested");
@@ -213,10 +240,6 @@ export default {
                 this.$Progress.fail();
             });            
         },
-        getProfilePic(){
-            let photo = (this.BioData.image.length >= 150) ? this.BioData.image : "./"+this.BioData.image;
-            return photo;
-            },
         updateProfilePic(e){
             let file = e.target.files[0];
             let reader = new FileReader();
@@ -235,11 +258,6 @@ export default {
         },
     },
     props:{
-        areas: Array,
-        branches: Array, 
-        departments: Array, 
-        states: Array,
-        user: Object,
         editMode: Boolean,
     }
 }

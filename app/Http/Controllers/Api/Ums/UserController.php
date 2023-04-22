@@ -23,8 +23,15 @@ class UserController extends Controller
 {
     public function initials()
     {
-        $users = User::orderBy('first_name', 'ASC')->paginate(52);
-        return response()->json(['users' => $users]);
+        $users = User::orderBy('first_name', 'ASC')->with(['state', 'area'])->paginate(52);
+        //$states = State::with('areas')->orderBy('name', 'ASC')->get();
+        //$areas = Area::where('state_id', '=', 25)->orderBy('name', 'ASC')->get();
+        
+        return response()->json([
+            'areas' => Area::where('state_id', '=', 25)->orderBy('name', 'ASC')->get(),
+            'states' => State::with('areas')->orderBy('name', 'ASC')->get(),
+            'users' => $users,
+        ]);
     }
       
     public function index()
@@ -99,20 +106,20 @@ class UserController extends Controller
             'first_name' => $request['first_name'],
             'middle_name' => $request['middle_name'],
             'last_name' => $request['last_name'],
-            'street' => $request['street'],
-            'street2' => $request['street2'],
-            'city' => $request['city'],
+            //'street' => $request['street'],
+            //'street2' => $request['street2'],
+            //'city' => $request['city'],
             'state_id' => $request['state_id'],
             'area_id' => $request['area_id'],
-            'personal_email' => $request['personal_email'],
-            'phone' => $request['phone'],
-            'alt_phone' => $request['alt_phone'],
+            //'personal_email' => $request['personal_email'],
+            //'phone' => $request['phone'],
+            //'alt_phone' => $request['alt_phone'],
             'sex' => $request['sex'],
             'dob' => $request['dob'],
             'image' => $image_url,
             'updated_at' => date('Y-m-d H:i:s'),
             'joined_at' => $request['joined_at'],
-            'unique_id' => $request['unique_id'],
+            'username' => $request['unique_id'],
             ]);
 
         $user->save();

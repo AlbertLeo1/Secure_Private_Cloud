@@ -152,15 +152,10 @@ export default {
     mounted() {
         Fire.$on('BioDataFill', user =>{
             this.BioData.fill(user);
-            console.log("Get Here");
-        });
-        Fire.$on('AfterCreation', ()=>{
-            //axios.get("api/profile").then(({ data }) => (this.BioData.fill(data)));
         });
     },
     methods:{
         updateBioData(){
-            console.log("Tested");
             this.$Progress.start();
             this.BioData.post('/api/ums/bios')
             .then(response =>{

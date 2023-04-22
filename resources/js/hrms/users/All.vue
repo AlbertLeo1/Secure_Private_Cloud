@@ -6,7 +6,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" v-show="editMode">Edit User: {{user.unique_id}}</h4>
                     <h4 class="modal-title" v-show="!editMode">New User</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <HrUserForm :areas="areas" :branches="branches" :departments="departments" :editMode="editMode" :states="states" :user="user"/>
@@ -19,7 +19,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" v-show="!editMode">Assign User Roles</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <HrUserFormRoleAssign :user="user"/>
