@@ -26,7 +26,7 @@ class User extends Authenticatable
     }
 
     protected $fillable = [
-        'user_type', 'first_name', 'middle_name', 'last_name', 'name', 'unique_id', 'branch_id', 'image', 'sex', 'street', 'street2', 'city', 'area_id', 'state_id', 'department_id', 'phone', 'alt_phone', 'dob', 'joined_at', 'email', 'personal_email', 'marital_status', 'password', 'remember_token', 'created_at', 'updated_at', 'deleted_by', 'deleted_at'
+        'user_type', 'first_name', 'middle_name', 'last_name', 'name', 'username', 'branch_id', 'image', 'sex', 'street', 'street2', 'city', 'area_id', 'state_id', 'department_id', 'phone', 'alt_phone', 'dob', 'joined_at', 'email', 'personal_email', 'marital_status', 'password', 'remember_token', 'created_at', 'updated_at', 'deleted_by', 'deleted_at'
     ];
 
     public function area(){

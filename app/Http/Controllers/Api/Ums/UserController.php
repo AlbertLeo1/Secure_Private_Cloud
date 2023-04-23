@@ -81,8 +81,8 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'street' => 'sometimes',
-            'street2' => 'sometimes',
+            //'street' => 'sometimes',
+            //'street2' => 'sometimes',
             'city' => 'required',
             'state_id' => 'numeric',
             'area_id' => 'numeric',
@@ -267,14 +267,14 @@ class UserController extends Controller
         $user->first_name = $request['first_name'];
         $user->middle_name = $request['middle_name'];
         $user->last_name = $request['last_name'];
-        $user->street = $request['street'];
-        $user->street2 = $request['street2'];
-        $user->city = $request['city'];
+        //$user->street = $request['street'];
+        //$user->street2 = $request['street2'];
+        //$user->city = $request['city'];
         $user->state_id = $request['state_id'];
         $user->area_id = $request['area_id'];
-        $user->personal_email = $request['personal_email'];
+        //$user->personal_email = $request['personal_email'];
         $user->phone = $request['phone'];
-        $user->alt_phone = $request['alt_phone'];
+        //$user->alt_phone = $request['alt_phone'];
         $user->branch_id = $request['branch_id'];
         $user->department_id = $request['department_id'];
         $user->sex = $request['sex'];
@@ -283,7 +283,7 @@ class UserController extends Controller
         $user->updated_at = date('Y-m-d H:i:s');
         $user->joined_at = $request->input('joined_at');
         $user->dob = $request->input('dob');
-        $user->unique_id = $request->input('unique_id');
+        $user->username = $request->input('unique_id');
             
         $user->save();
 
