@@ -43,7 +43,7 @@
                             <th>Model</th>
                             <th>Location</th>
                             <th>Status</th>
-                            <th>MAC Address</th>
+                            <th>IP Address</th>
                             <th></th>
                         </tr>
                     </thead>

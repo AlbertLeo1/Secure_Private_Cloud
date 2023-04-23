@@ -48,7 +48,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-            <label>MAC Address *</label>
+            <label>IP Address *</label>
             <input type="text" class="form-control" id="mac_address" name="mac_address" placeholder="mac_address *" required v-model="deviceForm.mac_address" :class="{'is-invalid' : deviceForm.errors.has('mac_address') }">
             </div>
         </div>
