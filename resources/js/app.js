@@ -96,6 +96,10 @@ Vue.filter('ExcelDateMonth', function(text){
     return moment(text).format('MMM Do');
     });
 
+Vue.filter('ExcelTimestamp', function(text){
+    return moment(text).format('MMMM Do, YYYY \n H:m:s');
+    });
+    
 Vue.filter('ExcelMonthYear', function(text){
     return moment(text).format('MMM, YYYY');
     });

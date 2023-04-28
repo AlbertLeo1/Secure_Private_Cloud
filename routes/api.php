@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 //Route::namespace('App\Http\Controllers\Api\Hims')->middleware('auth:api')->name('api.hims.')->group(base_path('routes/api/hims.php'));
 Route::namespace('App\Http\Controllers\Api\Hrms')->middleware('auth:api')->name('api.hrms.')->group(base_path('routes/api/hrms.php'));
 Route::namespace('App\Http\Controllers\Api\Inventory')->middleware('auth:api')->name('api.inventory.')->group(base_path('routes/api/inventory.php'));
+Route::namespace('App\Http\Controllers\Api\Logs')->middleware('auth:api')->name('api.logs.')->group(base_path('routes/api/logs.php'));
 Route::namespace('App\Http\Controllers\Api\Ums')->middleware('auth:api')->name('api.ums.')->group(base_path('routes/api/ums.php'));
 
 Route::group(['namespace'=>'App\Http\Controllers\Api', 'middleware'=>['auth:api'], 'as'=>'api.'], function () {
@@ -17,9 +18,9 @@ Route::group(['namespace'=>'App\Http\Controllers\Api', 'middleware'=>['auth:api'
     Route::post('/policies/assign',   'PolicyController@assign')->name('api.policies.assign');
     
     Route::apiResources([
-        '/dashboard'     => 'DashboardController',
-        '/policies'       => 'PolicyController',
-    
+        '/dashboard'        => 'DashboardController',
+        '/policies'         => 'PolicyController',
+        //'/logs/activities'  => 'Logs\LogController',
     ]);
 });
 

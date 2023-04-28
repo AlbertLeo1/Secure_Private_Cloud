@@ -11,10 +11,21 @@ use App\Models\Department;
 use App\Models\State;
 use App\Models\User;
 
+use App\Models\LogActivity;
+
 class DeviceController extends Controller
 {
     public function index()
     {
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled all devices', 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json([
             'branches' => Branch::select('id', 'name')->orderBy('name', 'ASC')->get(),
             'devices' => Device::with('branch')->paginate(30),  
@@ -38,6 +49,15 @@ class DeviceController extends Controller
             'mac_address' => $request->input('mac_address'),
             'created_by' => auth('api')->id(),
             'updated_by' => auth('api')->id(),
+        ]);
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' successfully created device with id:'.$device->id, 
+            'url' => 'This is a test', 
+            'method' => 'create', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
         ]);
 
         return response()->json([
@@ -70,6 +90,15 @@ class DeviceController extends Controller
         
         $device->save();
 
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' successfully updated device with id:'.$id, 
+            'url' => 'This is a test', 
+            'method' => 'update', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json([
             'branches' => Branch::select('id', 'name')->orderBy('name', 'ASC')->get(),
             'devices' => Device::with('branch')->paginate(30),  
@@ -88,6 +117,15 @@ class DeviceController extends Controller
         $device->deleted_at = date('Y-m-d H:i:s');
 
         $device->save();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' successfully deleted device with id:'.$id, 
+            'url' => 'This is a test', 
+            'method' => 'delete', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
 
         return response()->json([
             'message' => 'Device deleted successfully',

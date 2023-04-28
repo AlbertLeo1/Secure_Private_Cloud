@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import admin from './admin';
-//import domiciliary from './domiciliary';
+import dashboard from './dashboard';
 //import hims from './hims';
 import hr from './hr';
 import inventory from './inventory';
@@ -11,9 +11,7 @@ import inventory from './inventory';
 //import policies from './policies';
 
 const baseRoutes = [];
-const routes = baseRoutes.concat( admin,//applicant, domiciliary, hims, 
-hr, inventory, //learn, nursing, operations, policies,
-);
+const routes = baseRoutes.concat( admin, dashboard, hr, inventory,);
 
 const router = new VueRouter({
     mode: 'history',

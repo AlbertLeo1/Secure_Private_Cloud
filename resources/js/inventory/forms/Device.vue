@@ -41,6 +41,8 @@
                 <select class="form-control" id="status" name="status" placeholder="status *" required v-model="deviceForm.status" :class="{'is-invalid' : deviceForm.errors.has('status') }">
                     <option value=''>--Select Status--</option>
                     <option value="Active">Active</option>
+                    <option value="Damaged">Damaged</option>
+                    <option value="Repaired">Repaired</option>
                     <option value="Inactive">Inactive</option>
                     <option value="Discontinued">Discontinued</option>
                 </select>
