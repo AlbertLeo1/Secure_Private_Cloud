@@ -6,6 +6,7 @@ import HrUserSingle                     from '../hrms/users/Single.vue';
 import HrUserAll                        from '../hrms/users/All.vue';
 
     import HrUserForm                   from '../hrms/users/forms/User.vue';
+    import HrUserFormPassword           from '../hrms/users/forms/Password.vue';
     import HrUserFormRoleAssign         from '../hrms/users/forms/RoleAssign.vue';
 
 Vue.component('HrProfile',                      HrProfile);

@@ -42,7 +42,7 @@ class ProfileController extends Controller
             'email' => 'required|unique:users',
             'dob' => 'required|date',
         ]);
-
+        echo ($request['first_name']);
         $user = User::updateOrCreate(['email' => $request['email']],
             ['first_name' => $request['first_name'],
             'other_name' => $request['other_name'],

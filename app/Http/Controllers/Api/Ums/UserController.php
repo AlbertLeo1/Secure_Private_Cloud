@@ -19,6 +19,8 @@ use App\Models\EMR\Patient;
 use App\Models\HRMS\Employee;
 use Spatie\Permission\Models\Role;
 
+use App\Models\LogActivity;
+
 class UserController extends Controller
 {
     public function initials()
@@ -26,7 +28,15 @@ class UserController extends Controller
         $users = User::orderBy('first_name', 'ASC')->with(['state', 'area'])->paginate(52);
         //$states = State::with('areas')->orderBy('name', 'ASC')->get();
         //$areas = Area::where('state_id', '=', 25)->orderBy('name', 'ASC')->get();
-        
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled all users', 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json([
             'areas' => Area::where('state_id', '=', 25)->orderBy('name', 'ASC')->get(),
             'states' => State::with('areas')->orderBy('name', 'ASC')->get(),
@@ -41,6 +51,15 @@ class UserController extends Controller
         $states = State::orderBy('name', 'ASC')->get();
         $users  = User::orderBy('first_name', 'ASC')->with(['area','state'])->with('roles')->paginate(51);
         
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled all users', 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json([
             'areas'     => $areas,
             'nok'       => $nok,
@@ -81,8 +100,8 @@ class UserController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            //'street' => 'sometimes',
-            //'street2' => 'sometimes',
+            'street' => 'sometimes',
+            'street2' => 'sometimes',
             'city' => 'required',
             'state_id' => 'numeric',
             'area_id' => 'numeric',
@@ -106,9 +125,9 @@ class UserController extends Controller
             'first_name' => $request['first_name'],
             'middle_name' => $request['middle_name'],
             'last_name' => $request['last_name'],
-            //'street' => $request['street'],
-            //'street2' => $request['street2'],
-            //'city' => $request['city'],
+            'street' => $request['street'],
+            'street2' => $request['street2'],
+            'city' => $request['city'],
             'state_id' => $request['state_id'],
             'area_id' => $request['area_id'],
             //'personal_email' => $request['personal_email'],
@@ -123,6 +142,15 @@ class UserController extends Controller
             ]);
 
         $user->save();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' created a new user with id'.$user->id, 
+            'url' => 'This is a test', 
+            'method' => 'create', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
 
         return response()->json([
             // This are the required for User page
@@ -151,9 +179,19 @@ class UserController extends Controller
                 })->paginate(52);
             }
         else{
+            $search = '';
             $users = User::orderBy('first_name', 'ASC')->with(['area', 'state'])->paginate(52);
         }
         
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' searched users for '.$search, 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json(['users' => $users,]);
     }
 
@@ -179,6 +217,16 @@ class UserController extends Controller
         
         $user->password = bcrypt($request->npw);
         $user->save();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' changed his password', 
+            'url' => 'This is a test', 
+            'method' => 'update', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json(['status' => 'success', 'message' => 'Your password has been changed successfully']);
         
     }
@@ -190,6 +238,16 @@ class UserController extends Controller
         $states = State::orderBy('name', 'ASC')->get();
         $user = User::where('id', auth('api')->id())->with('area')->with('state')->first();
         //$nations = Country::orderBy('name', 'ASC')->get();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled his profile', 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
+
         return response()->json([
             //'nations' => Country::orderBy('name', 'ASC')->get(),
             'areas' => $areas,
@@ -209,6 +267,15 @@ class UserController extends Controller
         if (is_string($id)){
             $users = User::whereDate('created_at', '>=', date('Y-m-d H:i:s',strtotime('-14 days')))->latest()->with(['area','state','roles'])->paginate(51);
         }
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled profile of user with id: '.$id, 
+            'url' => 'This is a test', 
+            'method' => 'read', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
 
         return response()->json([
             'areas'     => $areas,
@@ -267,9 +334,9 @@ class UserController extends Controller
         $user->first_name = $request['first_name'];
         $user->middle_name = $request['middle_name'];
         $user->last_name = $request['last_name'];
-        //$user->street = $request['street'];
-        //$user->street2 = $request['street2'];
-        //$user->city = $request['city'];
+        $user->street = $request['street'];
+        $user->street2 = $request['street2'];
+        $user->city = $request['city'];
         $user->state_id = $request['state_id'];
         $user->area_id = $request['area_id'];
         //$user->personal_email = $request['personal_email'];
@@ -286,6 +353,15 @@ class UserController extends Controller
         $user->username = $request->input('unique_id');
             
         $user->save();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' updated user with id: '.$id, 
+            'url' => 'This is a test', 
+            'method' => 'update', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
 
         return response()->json([
             // This are the required for User page
@@ -307,6 +383,15 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
+
+        $log_activity = LogActivity::create([
+            'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' deleted user with id: '.$id, 
+            'url' => 'This is a test', 
+            'method' => 'delete', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth('api')->id(),
+        ]);
         return response()->json([
             // This are the required for User page
             'areas' => Area::select('id', 'name')->where('state_id', 25)->orderBy('name', 'ASC')->get(),

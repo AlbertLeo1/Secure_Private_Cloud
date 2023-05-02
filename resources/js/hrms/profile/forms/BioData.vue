@@ -2,6 +2,7 @@
 <div>
 <form>
     <alert-error :form="BioData"></alert-error> 
+    {{ user }}
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
@@ -25,7 +26,6 @@
         </div>
     </div>
     <div class="row">
-        <!-- Get Address -->
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 <label>Address*</label>
@@ -47,7 +47,8 @@
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>State</label>
-                <select class="form-control" id="state_id" name="state_id" placeholder="Enter State / County *" required v-model="BioData.state_id" :class="{'is-invalid' : BioData.errors.has('state_id') }">
+                <select class="form-control" id="state_id" name="state_id" placeholder="Enter State / County *" required v-model="BioData.state" :class="{'is-invalid' : BioData.errors.has('state_id') }">
+                    <option v-if="user.state_id != null" :value="user.state_id">{{ user.state.name }}</option>
                     <option value="">--Select State--</option>
                     <option v-for="state in states" v-bind:key="state.id" :value="state.id" >{{state.name}}</option>
                 </select>
@@ -147,10 +148,12 @@ export default {
                 street:'', 
                 street2:'',
             }),
+            user: {},
         }
     },
     mounted() {
         Fire.$on('BioDataFill', user =>{
+            this.user = user;
             this.BioData.fill(user);
         });
     },

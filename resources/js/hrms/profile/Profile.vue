@@ -38,7 +38,7 @@
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#bio-data" data-toggle="tab">Bio Data</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#next-of-kin" data-toggle="tab">Next of Kin</a></li>
+                    <!--li class="nav-item"><a class="nav-link" href="#next-of-kin" data-toggle="tab">Next of Kin</a></li-->
                     <li class="nav-item"><a class="nav-link" href="#password" data-toggle="tab">Password</a></li>
                     </ul>
                 </div>
@@ -47,9 +47,7 @@
                         <div class="tab-pane active" id="bio-data">
                             <HrUserForm :areas="areas" :branches="branches" :departments="departments" :editMode="editMode" :states="states" :user="user" />
                         </div>
-                        <div class="tab-pane" id="next-of-kin">
-                            <HrUserFormNOK :nok="nok"/>
-                        </div>
+
                         <div class="tab-pane" id="password">
                             <HrUserFormPassword />
                         </div>

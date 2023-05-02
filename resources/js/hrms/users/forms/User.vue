@@ -47,8 +47,7 @@
             <div class="form-group">
                 <label>State </label>
                 <select class="form-control" id="state_id" name="state_id" placeholder="Enter State / County *" required v-model="BioData.stat_id" :class="{'is-invalid' : BioData.errors.has('stat_id') }" @change="updateAreas()">
-                    <!--option v-if="user.state != null" :value="user.state_id" selected>{{user.state.name}}</option -->
-                
+                    <option v-if="user.state != null" :value="user.state_id" selected>{{user.state.name}}</option>
                     <option value="">--Select State--</option>
                     <option v-for="(state, index) in states" v-bind:key="state.id" :value="index" >{{state.name}}</option>
                 </select>
@@ -152,6 +151,7 @@ export default {
                 phone:'', 
                 roles:'',
                 sex:'', 
+                stat_id: '',
                 state_id:'', 
                 street:'', 
                 street2:'',
@@ -169,6 +169,7 @@ export default {
         Fire.$on('BioDataFill', user =>{
             this.user = user;
             this.BioData.fill(user);
+            this.BioData.stat_id = user.state_id;
         });
     },
     methods:{
