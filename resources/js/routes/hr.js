@@ -14,6 +14,7 @@ Vue.component('HrUserAll',                      HrUserAll);
 Vue.component('HrUserSingle',                   HrUserSingle);
     Vue.component('HrUserForm',                 HrUserForm);
     Vue.component('HrUserFormRoleAssign',       HrUserFormRoleAssign);
+    Vue.component('HrUserFormPassword',         HrUserFormPassword);
 let routes = [
     {path: '/hr',                           component: HrUserAll},
     {path: '/hr/profile',                   component: HrProfile},
