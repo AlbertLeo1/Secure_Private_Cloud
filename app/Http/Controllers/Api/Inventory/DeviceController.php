@@ -74,6 +74,48 @@ class DeviceController extends Controller
         
     }
 
+    public function status()
+    {
+        if ($search = \Request::get('status')){
+            $log_activity = LogActivity::create([
+                'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled all '.$search.' devices', 
+                'url' => 'This is a test', 
+                'method' => 'read', 
+                'ip' => \Illuminate\Support\Facades\Request::ip(), 
+                'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+                'user_id' => auth('api')->id(),
+            ]);
+
+            if ($search == 'new'){
+                $previous_week = strtotime("-1 week +1 day");
+                $old_begins = date("Y-m-d H:i:s", $previous_week);
+                $devices = Device::whereDate('created_at', '>=', $old_begins)->with('branch')->paginate(30);
+            }
+            else {$devices = Device::where('status', '=', $search)->with('branch')->paginate(30);}  
+
+            }
+        else{
+            $log_activity = LogActivity::create([
+                'subject' => 'User '.auth('api')->user()->first_name.' '.auth('api')->user()->last_name.' pulled unknown device status on devices', 
+                'url' => 'This is a test', 
+                'method' => 'read', 
+                'ip' => \Illuminate\Support\Facades\Request::ip(), 
+                'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+                'user_id' => auth('api')->id(),
+            ]);
+            
+            $devices = NULL;
+        }
+
+        return response()->json([
+            'branches'      => Branch::select('id', 'name')->orderBy('name', 'ASC')->get(),
+            'devices'       => $devices,  
+            'states'        => State::select('id', 'name')->orderBy('name', 'ASC')->with('areas')->get(),
+            'departments'   => Department::select('id', 'name')->orderBy('name', 'ASC')->get(),
+            'users'         => User::orderBy('last_name', 'ASC')->get(),
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $device = Device::findOrFail($id);

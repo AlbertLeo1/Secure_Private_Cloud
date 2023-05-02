@@ -24,29 +24,22 @@
                             <button class="btn btn-xs btn-primary" @click="addBranch">Add New</button>
                         </div>
                     </div>
-                    <div class="body">
-                        <div class="table-responsive">
-                            <table class="table m-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="branch in branches.data" :key="branch.id">
-                                        <td>{{branch.name}}</td>
-                                        <td>{{branch.address}}</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button class="btn btn-sm btn-primary" @click="editBranch(branch)"><i class="fa fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger" @click="deleteBranch(branch.id)"><i class="fa fa-trash"></i></button>
-                                            </div>          
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="card-body row">
+                        <div class="col-md-2" v-for="branch in branches.data" :key="branch.id">
+                            <div class="card card-widget ">
+                                <div class="card-body">
+                                    <img class="img-fluid pad" src="" alt="branch_image" />
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                            {{ branch.name }} <span class="float-right badge bg-success">{{ branch.device_count }}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
