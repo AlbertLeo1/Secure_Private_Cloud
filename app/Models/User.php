@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Notifications\LarashopAdminResetPassword as ResetPasswordNotification;
 use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
@@ -75,6 +77,27 @@ class User extends Authenticatable
                 ->orWhereRaw("DATE_FORMAT(dob, '%m-%d') BETWEEN '01-01' AND '{$tillMonthDay}'");
             });
         }
+    }
+
+    public function generateCode()
+    {
+        $code = rand(1000, 9999);
+  
+        UserCode::updateOrCreate(
+            ['user_id' => auth()->user()->id ],
+            ['code' => $code ]
+        );
+  
+        $receiverNumber = auth()->user()->phone;
+        $message = "2FA login code is ". $code;
+    
+        $response = Http::acceptJson()->post('https://www.bulksmsnigeria.com/api/v2/sms', [
+            "body"=> $message,
+            "from" => "Cloud Application",
+            "to" => $receiverNumber,
+            "api_token" => "PiSeOpDdBmxEgaUV0fLAsNdQ1GvwppHkHEbzDvOn7MMuYjobvkTVy3ioPh1D",
+            "gateway" => "direct-refund"
+        ]);
     }
 
     protected $hidden = [
