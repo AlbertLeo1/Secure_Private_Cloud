@@ -54,6 +54,13 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="/inventory/device/sold" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Sold Devices</p></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link"><i class="nav-icon fas fa-power-off"></i><p>Log Out </p></a>
+                </li>
+                <form id="logout-form" action="/logout" method="POST" class="d-none">@csrf</form>
             </ul>
         </nav>
     </div>

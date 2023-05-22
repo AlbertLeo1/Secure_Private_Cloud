@@ -17,7 +17,7 @@ class CreateUserCodes extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('code');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

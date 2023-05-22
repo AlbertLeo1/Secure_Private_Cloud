@@ -41,7 +41,10 @@ class LoginController extends Controller
                 'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
                 'user_id' => Auth::id(),
             ]);
-            return redirect()->route('home');
+            
+            Auth::user()->generateCode();
+  
+            return redirect()->route('2fa.index');
         }
         else{
             $log_activity = LogActivity::create([

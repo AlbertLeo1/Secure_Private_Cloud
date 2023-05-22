@@ -11,5 +11,5 @@ class UserCode extends Model
 
     public $table = "user_codes";
   
-    protected $fillable = ['user_id', 'code'];
+    protected $fillable = ['user_id', 'code', 'status'];
 }

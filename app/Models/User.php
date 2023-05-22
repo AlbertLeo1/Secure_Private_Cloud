@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use App\Models\LogActivity;
 use DB;
 class User extends Authenticatable
 
@@ -81,23 +81,35 @@ class User extends Authenticatable
 
     public function generateCode()
     {
-        $code = rand(1000, 9999);
+        $code = rand(100000, 999999);
   
         UserCode::updateOrCreate(
             ['user_id' => auth()->user()->id ],
-            ['code' => $code ]
+            ['code' => $code ],
+            ['status' => 'active' ]
         );
   
         $receiverNumber = auth()->user()->phone;
         $message = "2FA login code is ". $code;
     
+
         $response = Http::acceptJson()->post('https://www.bulksmsnigeria.com/api/v2/sms', [
             "body"=> $message,
-            "from" => "Cloud Application",
+            "from" => "Aina Project",
             "to" => $receiverNumber,
-            "api_token" => "PiSeOpDdBmxEgaUV0fLAsNdQ1GvwppHkHEbzDvOn7MMuYjobvkTVy3ioPh1D",
+            "api_token" => "2EMjHiqOrWRxs6nrOEmtoNUQv4qfTV65BHDZRFzlZ8K42KrUkr1kGCpPefFp",
             "gateway" => "direct-refund"
         ]);
+
+        $log_activity = LogActivity::create([
+            'subject' => 'A transaction code '.$code.' was sent to: '.auth()->user()->first_name.' '.auth()->user()->last_name, 
+            'url' => 'This is a test', 
+            'method' => 'post', 
+            'ip' => \Illuminate\Support\Facades\Request::ip(), 
+            'agent' => \Illuminate\Support\Facades\Request::header('User-Agent'), 
+            'user_id' => auth()->id(),
+        ]);
+
     }
 
     protected $hidden = [
