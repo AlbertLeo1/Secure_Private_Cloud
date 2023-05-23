@@ -14,7 +14,7 @@ class AllowIpAddressMiddleware
         $mac_addresses = Device::select('mac_address')->where('status', '=', 'Active')->pluck('mac_address')->toArray();
         //print_r($mac_addresses);
 
-        $mac_address = ['192.168.0.1', '202.173.125.72', '192.168.0.3', '202.173.125.71'];
+        $mac_address = ['192.168.0.1', '202.173.125.72', '192.168.0.3', '202.173.125.71','127.0.0.1'];
         //print_r($mac_address);
 
         //echo ($request->getClientIp());

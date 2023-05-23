@@ -10,7 +10,7 @@ use App\Models\Inventory\Device;
 class AllowMacAddressMiddleware
 {
     //public 
-    //public $mac_address = ['192.168.0.1', '202.173.125.72', '192.168.0.3', '202.173.125.71'];
+    //public $mac_address = ['192.168.0.1', '202.173.125.72', '192.168.0.3', '202.173.125.71','127.0.0.1'];
 
     public function handle(Request $request, Closure $next)
     {
