@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Branch;
+use App\Models\Inventory\Device;
 use App\Models\User;
 
 use Spatie\Permission\Models\Role;
@@ -40,8 +41,19 @@ class BranchController extends Controller
 
     public function show($id)
     {
+        $previous_week = strtotime("-1 week +1 day");
+        $old_begins = date("Y-m-d H:i:s", $previous_week);
+
         return response()->json([
-            'branch'    => Branch::where('id', '=', $id)->orderBy('name', 'ASC')->first(),       
+            'all_devices'       => Device::where('branch_id', '=', $id)->whereNotIn('status', ['Sold', 'Discontinued'])->count(),
+            'new_devices'       => Device::where('branch_id', '=', $id)->whereDate('created_at', '>=', $old_begins)->count(),
+            'damaged_devices'   => Device::where('branch_id', '=', $id)->where('status', '=','Damaged')->count(),
+            'repaired_devices'  => Device::where('branch_id', '=', $id)->where('status', '=', 'Repaired')->count(),
+            'sold_devices'      => Device::where('branch_id', '=', $id)->where('status', '=', 'Sold')->count(),
+            'due_devices'       => Device::where('branch_id', '=', $id)->where('status', '=', 'Due')->count(),
+            //'all_devices' => Device::with('branch')->count(),  
+            'branch'    => Branch::where('id', '=', $id)->orderBy('name', 'ASC')->first(),
+
         ]);
     }
 

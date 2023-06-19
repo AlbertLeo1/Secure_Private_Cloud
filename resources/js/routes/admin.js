@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import AdminDepartments                 from '../administration/departments/All.vue'
 import AdminDepartmentSingle            from '../administration/departments/Single.vue'
 import AdminBranches                    from '../administration/branches/All.vue';
+import AdminBranch                      from '../administration/branches/Main.vue';
 import AdminLogs                        from '../administration/ActivityLog.vue';
 
     import AdminFormDepartment          from '../administration/departments/Form.vue';
@@ -26,6 +27,7 @@ let routes = [
     {path: '/admin/departments',                component: AdminDepartments},
     {path: '/admin/departments/:id',            component: AdminDepartmentSingle},
     {path: '/admin/branches',                   component: AdminBranches},
+    {path: '/admin/branches/:id',               component: AdminBranch},
     {path: '/admin/logs',                       component: AdminLogs},
 
 ]

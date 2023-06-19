@@ -33,9 +33,9 @@
                                 <div class="card-footer p-0">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <router-link :to="'/admin/branches/'+branch.id" class="nav-link">
                                             {{ branch.name }} <span class="float-right badge bg-success">{{ branch.device_count }}</span>
-                                            </a>
+                                            </router-link>
                                         </li>
                                     </ul>
                                 </div>
